@@ -1,4 +1,4 @@
-package mediator;
+package share.model;
 
 import java.io.Serializable;
 

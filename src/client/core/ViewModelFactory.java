@@ -1,8 +1,7 @@
-package core;
+package client.core;
 
-import core.ModelFactory;
-import model.LogInModel;
-import view.logIn.LogInViewModel;
+
+import client.view.logIn.LogInViewModel;
 
 public class ViewModelFactory {
     private ModelFactory modelFactory;

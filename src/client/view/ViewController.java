@@ -1,6 +1,7 @@
-package view;
+package client.view;
 
-import core.ViewModelFactory;
+
+import client.core.ViewModelFactory;
 
 public interface ViewController {
    public void init (ViewModelFactory viewModelFactory, ViewHandler viewHandler  );

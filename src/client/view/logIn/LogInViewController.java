@@ -1,10 +1,12 @@
-package view.logIn;
+package client.view.logIn;
 
-import core.ViewModelFactory;
+
+import client.core.ViewModelFactory;
+import client.view.ViewController;
+import client.view.ViewHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import view.ViewController;
-import view.ViewHandler;
+
 
 public class LogInViewController implements ViewController {
     private LogInViewModel logInViewModel;

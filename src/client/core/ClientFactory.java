@@ -1,11 +1,11 @@
-package core;
+package client.core;
 
-import mediator.Client;
-import mediator.ClientHandler;
+import client.mediator.Client;
+import client.mediator.ClientHandler;
 
 public class ClientFactory {
-    private Client client;
 
+    private Client client;
     public Client getClient(){
         if ( client == null){
             client = new ClientHandler();

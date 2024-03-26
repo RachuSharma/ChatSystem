@@ -1,8 +1,8 @@
-package core;
+package client.core;
 
-import mediator.Client;
-import model.LogInModel;
-import model.LogInModelManager;
+
+import client.model.LogInModel;
+import client.model.LogInModelManager;
 
 public class ModelFactory {
     private ClientFactory client;

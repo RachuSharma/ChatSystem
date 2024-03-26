@@ -1,11 +1,12 @@
-import core.ClientFactory;
-import core.ModelFactory;
+package client;
+
+import client.core.ClientFactory;
+import client.core.ModelFactory;
+import client.core.ViewModelFactory;
+import client.view.ViewHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import mediator.Client;
-import mediator.ClientHandler;
-import view.ViewHandler;
-import core.ViewModelFactory;
+
 
 public class ChatApplication extends Application {
     @Override

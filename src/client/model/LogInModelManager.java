@@ -1,12 +1,15 @@
-package model;
+package client.model;
 
-import core.ClientFactory;
-import mediator.Client;
+
+import client.mediator.Client;
 
 public class LogInModelManager implements LogInModel{
     private Client client;
     public LogInModelManager(Client client) {
         this.client = client;
+        //client.startClient();
+
+
     }
 
     @Override
