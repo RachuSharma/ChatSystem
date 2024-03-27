@@ -1,4 +1,4 @@
-package share.model;
+package share.transferObject;
 
 import java.io.Serializable;
 

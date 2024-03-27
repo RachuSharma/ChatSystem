@@ -1,26 +1,30 @@
 package client.mediator;
 
-import share.model.Request;
-import share.model.User;
+import share.transferObject.Request;
+import share.transferObject.User;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class ClientHandler implements Client {
 
-    public ClientHandler (){
+    private PropertyChangeSupport support;
 
+    public ClientHandler() {
+        this.support = new PropertyChangeSupport(this);
     }
-    public void startClient(){
+
+    public void startClient() {
         try {
-            Socket socket = new Socket("localhost",2910);
+            Socket socket = new Socket("localhost", 2910);
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 
-            new Thread(()-> listenToServer(outputStream, inputStream)).start();
+            new Thread(() -> listenToServer(outputStream, inputStream)).start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +33,7 @@ public class ClientHandler implements Client {
     private void listenToServer(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
 
         try {
-            while (true){
+            while (true) {
                 Request request = (Request) inputStream.readObject();
 
 
@@ -44,20 +48,35 @@ public class ClientHandler implements Client {
 
     @Override
     public boolean logIn(String username, String password) {
-        User user = new User(username,password);
-        Socket socket = null;
+        User user = new User(username, password);
+        Request req = new Request("UserLogin", user);
         try {
-            socket = new Socket("localhost",2910);
-            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-            System.out.println("In login");
-            outputStream.writeObject(new Request("User",user));
-
+            Request response = request(req);
+            return true;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        return false;
+    private Request request (Request request) throws IOException, ClassNotFoundException {
+
+        Socket socket = new Socket("localhost", 2910);
+        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+        outputStream.writeObject(request);
+        return  (Request) inputStream.readObject();
+    }
+
+    @Override
+    public void addListener(String eventName, PropertyChangeListener listener) {
+        support.addPropertyChangeListener(eventName,listener);
+    }
+
+    @Override
+    public void removeListener(String eventName, PropertyChangeListener listener) {
+        support.removePropertyChangeListener(eventName,listener);
     }
 }

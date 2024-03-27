@@ -1,18 +1,25 @@
-package server;
+package server.mediator;
+
+import server.model.LogIn;
+import server.model.LoginManager;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.SocketHandler;
 
 public class SocketServer {
-    void startServer() {
+    private LogIn loginManager;
+    public SocketServer() {
+        this.loginManager = new LoginManager();
+    }
+
+    public void startServer() {
         try {
             ServerSocket welcomeSocket = new ServerSocket(2910);
 
             while (true) {
                 Socket socket = welcomeSocket.accept();
-                System.out.println("New Client added ");
+                new Thread(new SocketHandler(socket, loginManager)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();

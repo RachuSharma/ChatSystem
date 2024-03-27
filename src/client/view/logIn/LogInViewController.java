@@ -25,7 +25,7 @@ public class LogInViewController implements ViewController {
 
     @FXML
     private void signInClicked(ActionEvent actionEvent) {
-        logInViewModel.logIn("CHana","sdklnf");
+        logInViewModel.logIn("chana","sdklnf");
     }
 
     //VMF - login method
