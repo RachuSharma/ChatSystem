@@ -12,10 +12,8 @@ public class LogInModelManager implements LogInModel{
     PropertyChangeSupport support = new PropertyChangeSupport(this);
     public LogInModelManager(Client client) {
         this.client = client;
-        //client.startClient();
+        client.startClient();
         client.addListener("NewUserAdded" , this::onNewUserAdded);
-
-
     }
 
     private void onNewUserAdded(PropertyChangeEvent propertyChangeEvent) {

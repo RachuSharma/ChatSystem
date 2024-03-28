@@ -4,6 +4,7 @@ import server.model.LogIn;
 import share.transferObject.Request;
 import share.transferObject.User;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -29,7 +30,11 @@ public class SocketHandler implements Runnable {
     public void run() {
         try {
             Request request = (Request) inFromClient.readObject();
-            if(request.getType().equals("UserLogin")){
+            if (request.getType().equals("Listener")){
+                loginManager.addListener("NewUserAdded",this::onNewClientAdded);
+                loginManager.addClient((User) request.getObject());
+            }
+            else if(request.getType().equals("UserLogin")){
                 String result = loginManager.login((User) request.getObject());
                 User user = new User(result, ((User) request.getObject()).getPassword());
                 outToClient.writeObject(new Request("UserLogin", user ));
@@ -37,6 +42,14 @@ public class SocketHandler implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void onNewClientAdded(PropertyChangeEvent propertyChangeEvent) {
+        try {
+            outToClient.writeObject(new Request(propertyChangeEvent.getPropertyName(),propertyChangeEvent.getNewValue()));
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

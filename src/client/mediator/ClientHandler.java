@@ -31,11 +31,12 @@ public class ClientHandler implements Client {
     }
 
     private void listenToServer(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
-
+        User a = new User("sdd","dfs");
         try {
+            outputStream.writeObject(new Request("Listener",a));
             while (true) {
-                Request request = (Request) inputStream.readObject();
-
+                Request response = (Request) inputStream.readObject();
+                support.firePropertyChange(response.getType(),null,response.getObject());
 
             }
         } catch (IOException e) {
@@ -54,9 +55,7 @@ public class ClientHandler implements Client {
             Request response = request(req);
             return true;
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
