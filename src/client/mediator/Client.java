@@ -6,6 +6,7 @@ public interface Client extends Subject {
 
     void startClient();
 
-    boolean logIn(String username, String password);
+    boolean logIn(String username);
 
+    String sendMessage(String text);
 }

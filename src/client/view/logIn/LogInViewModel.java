@@ -15,10 +15,10 @@ public class LogInViewModel {
     }
 
     private void onNewUserAdded(PropertyChangeEvent propertyChangeEvent) {
-        System.out.println(propertyChangeEvent.getNewValue() + " ..--..--....... ");
+        System.out.println(propertyChangeEvent.getNewValue() + " New User added ");
     }
 
-    public void logIn(String username, String password){
-        logInModel.logIn(username,password);
+    public boolean logIn(String username){
+       return logInModel.logIn(username);
     }
 }

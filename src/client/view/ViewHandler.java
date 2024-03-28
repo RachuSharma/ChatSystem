@@ -14,6 +14,7 @@ public class ViewHandler {
     private ViewModelFactory viewModelFactory;
     private Stage stage;
     private Scene logInScene;
+    private Scene chatViewScene;
     public ViewHandler(ViewModelFactory viewModelFactory) {
         this.viewModelFactory = viewModelFactory;
     }
@@ -46,5 +47,20 @@ public class ViewHandler {
         ViewController controller = loader.getController();
         controller.init(viewModelFactory, this);
         return root;
+    }
+
+    public void openChatView() {
+        if (chatViewScene == null){
+            try {
+                Parent root = loadFXML("./chat/ChatView.fxml");
+                chatViewScene = new Scene(root);
+                stage.setTitle("Chat");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        stage.setScene(chatViewScene);
+        stage.show();
     }
 }

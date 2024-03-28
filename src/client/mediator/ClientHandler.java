@@ -31,30 +31,37 @@ public class ClientHandler implements Client {
     }
 
     private void listenToServer(ObjectOutputStream outputStream, ObjectInputStream inputStream) {
-        User a = new User("sdd","dfs");
         try {
-            outputStream.writeObject(new Request("Listener",a));
+            outputStream.writeObject(new Request("Listener",null));
             while (true) {
                 Request response = (Request) inputStream.readObject();
                 support.firePropertyChange(response.getType(),null,response.getObject());
-
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
 
     @Override
-    public boolean logIn(String username, String password) {
-        User user = new User(username, password);
+    public boolean logIn(String username) {
+        User user = new User(username);
         Request req = new Request("UserLogin", user);
         try {
             Request response = request(req);
-            return true;
+            return (boolean) response.getObject();
 
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String sendMessage(String text) {
+        Request req = new Request("NewMessage", text);
+        try {
+            String repl = (String) request(req).getObject();
+            return repl;
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
